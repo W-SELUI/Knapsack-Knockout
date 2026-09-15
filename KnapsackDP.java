@@ -43,6 +43,48 @@ public class KnapsackDP {
         System.out.println("DP table - each cell shows the best total value ($)");
         printTable(dp, itemNames, capacity);
         System.out.println("Best value for the full bag: $" + dp[itemCount][capacity]);
+
+        // Work backwards through the table to find a choice of items
+        // that achieves the best value.
+        boolean[] selectedItems = findSelectedItems(dp, weights, capacity);
+
+        System.out.println();
+        System.out.println("Selected items:");
+        int totalWeight = 0;
+        int totalValue = 0;
+        int selectedCount = 0;
+
+        for (int i = 0; i < itemCount; i++) {
+            if (selectedItems[i]) {
+                System.out.println("- " + itemNames[i] + ": " + weights[i]
+                        + " kg, value $" + values[i]);
+                totalWeight += weights[i];
+                totalValue += values[i];
+                selectedCount++;
+            }
+        }
+
+        if (selectedCount == 0) {
+            System.out.println("(none)");
+        }
+        System.out.println("Total weight: " + totalWeight + " / " + capacity + " kg");
+        System.out.println("Total value: $" + totalValue);
+    }
+
+    // An unchanged value means we can leave this item out and still
+    // achieve the best value. On a tie, we leave the item out.
+    private static boolean[] findSelectedItems(int[][] dp, int[] weights, int capacity) {
+        boolean[] selectedItems = new boolean[weights.length];
+        int remainingCapacity = capacity;
+
+        for (int i = weights.length; i > 0; i--) {
+            if (dp[i][remainingCapacity] != dp[i - 1][remainingCapacity]) {
+                selectedItems[i - 1] = true;
+                remainingCapacity -= weights[i - 1];
+            }
+        }
+
+        return selectedItems;
     }
 
     // Display the saved answers with a border around every row and column.

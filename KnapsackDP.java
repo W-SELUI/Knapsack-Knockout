@@ -10,7 +10,7 @@ public class KnapsackDP {
                         "Use: java -cp out KnapsackDP [path-to-problem.kp | --demo]");
             }
             if (args.length == 1 && args[0].equals("--demo")) {
-                Demo.main(new String[0]);
+                runDemo();
                 return;
             }
 
@@ -41,5 +41,23 @@ public class KnapsackDP {
             System.err.println("Could not run knapsack: " + error.getMessage());
             System.exit(1);
         }
+    }
+
+
+    private static void runDemo() {
+        ProblemData problem = new ProblemData("Camera example",
+                new String[]{"Camera", "Speaker", "Console"},
+                new int[]{2, 3, 4},
+                new int[]{3, 4, 5},
+                5);
+
+        int[][] dp = DPSolver.buildTable(problem);
+        boolean[] selectedItems = DPSolver.findSelectedItems(
+                dp, problem.weights, problem.capacity);
+        int bestValue = dp[problem.weights.length][problem.capacity];
+
+        TablePrinter.printProblem(problem, null);
+        TablePrinter.printTable(dp, problem.itemNames, problem.capacity, true);
+        TablePrinter.printResult(problem, bestValue, selectedItems);
     }
 }

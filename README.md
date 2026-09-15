@@ -4,51 +4,45 @@ A CS214 project comparing Dynamic Programming (DP) and a Genetic Algorithm (GA) 
 
 ## Current progress
 
-The DP program loads benchmark files, calculates the best value, shows a bordered table, lists the chosen items, and checks the answer against a matching entry in KNOWN_OPTIMA.txt. The GA now completes one full run using a binary population, fitness-based selection, one-point crossover, mutation, elitism, and a fixed generation limit. Repeated experiments and live comparison graphs are still to be added.
+The DP program loads benchmark files, calculates the exact best value, shows a bordered table, lists the chosen items, and checks the answer against a matching entry in KNOWN_OPTIMA.txt. The GA completes one full run using a binary population, fitness-based selection, one-point crossover, mutation, elitism, and a fixed generation limit. Repeated experiments and live comparison graphs are still to be added.
 
 ## Java files
 
 | File | Job |
 |---|---|
-| KnapsackDP.java | Start the benchmark program. P01 is the default. |
-| Demo.java | Start the camera, speaker, and console example. |
+| KnapsackDP.java | Start the DP benchmark program. P01 is the default. |
 | DPSolver.java | Calculate the DP table and find the chosen items. |
 | BenchmarkReader.java | Read .kp files and look up published answers. |
-| TablePrinter.java | Print the input, bordered table, and chosen items. |
+| TablePrinter.java | Print the input, bordered table, and results. |
 | ProblemData.java | Hold the item names, weights, values, and bag limit. |
-| GAChromosome.java | Store one binary GA choice and calculate its fitness. |
-| GASelector.java | Select parents using fitness-based ticket chances. |
-| GACrossover.java | Combine two parents at a split point. |
-| GAMutation.java | Randomly flip chromosome bits. |
-| GAResult.java | Store the best choice from one GA run. |
-| GeneticAlgorithm.java | Run the complete GA loop. |
+| GeneticAlgorithm.java | Complete GA solver and its related chromosome, selection, crossover, mutation, and result classes. |
 | GeneticAlgorithmRunner.java | Start one complete GA run. |
 
-Both entry points use the same DP calculation and printing code.
+The `--demo` option on either runner uses the small camera, speaker, and console example.
 
 ## Run in VS Code
 
 Open this Assignment 2 folder in VS Code. Java 11 or later is required.
 
-In the terminal, compile the Java files:
+Compile all Java source files into the `out` folder:
 
 ~~~powershell
 javac -d out *.java
 ~~~
 
-Run P01:
+Run DP on P01:
 
 ~~~powershell
 java -cp out KnapsackDP
 ~~~
 
-Run the small example:
+Run DP on the small example:
 
 ~~~powershell
-java -cp out Demo
+java -cp out KnapsackDP --demo
 ~~~
 
-Run another small benchmark:
+Run DP on another benchmark:
 
 ~~~powershell
 java -cp out KnapsackDP benchmarks/benchmarks/p02.kp
@@ -66,26 +60,11 @@ Run the complete GA on the small example:
 java -cp out GeneticAlgorithmRunner --demo
 ~~~
 
-Recompile after changing the Java code. Compiled files go in out/. The benchmark files remain in benchmarks/benchmarks/.
+Recompile after changing Java code. All compiled `.class` files go in `out/`; the benchmark files remain in `benchmarks/benchmarks/`.
 
-On the installed Java 26 runtime, you can also use source-file launching:
+## Run buttons in VS Code
 
-~~~powershell
-java KnapsackDP.java
-java Demo.java
-~~~
-
-The existing --demo option is also supported.
-
-## Expected results
-
-- Demo: camera and speaker; weight 5; value 7.
-- P01: items 1, 2, 3, 4 and 6; weight 165; value 309.
-- P02: items 2, 3 and 4; weight 26; value 51.
-
-The table includes every weight limit, displayed in groups of ten columns. A row labelled "First 6 items" means those items are available to choose from.
-
-The solver calculates its answer from weights and values. It uses KNOWN_OPTIMA.txt afterwards to check that answer.
+Open the Run and Debug panel and choose one of the saved configurations: **Run DP - P01**, **Run DP - Demo**, **Run GA - P01**, or **Run GA - Demo**. These configurations compile all Java files into `out/` before starting. The single-file Code Runner button is not configured for this multi-file project.
 
 ## Current GA settings
 
@@ -96,6 +75,15 @@ The solver calculates its answer from weights and values. It uses KNOWN_OPTIMA.t
 - Elitism: the best choice found so far is copied into the next generation.
 
 The GA uses a new random generator for each run, so repeated runs can produce different results. The runner reports the known optimum for comparison but does not assume that GA must find it on every run.
+
+## Expected results
+
+- DP demo: camera and speaker; weight 5; value 7.
+- DP P01: items 1, 2, 3, 4 and 6; weight 165; value 309.
+- GA demo: a feasible choice with value up to 7.
+- GA P01: a feasible choice and its comparison with the known optimum.
+
+The DP table includes every weight limit, displayed in groups of ten columns. A row labelled "First 6 items" means those items are available to choose from.
 
 ## Development acknowledgement
 

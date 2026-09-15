@@ -1,0 +1,43 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Run DP - P01",
+            "request": "launch",
+            "mainClass": "KnapsackDP",
+            "preLaunchTask": "Compile Knapsack Knockout",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "java",
+            "name": "Run DP - Demo",
+            "request": "launch",
+            "mainClass": "KnapsackDP",
+            "args": [
+                "--demo"
+            ],
+            "preLaunchTask": "Compile Knapsack Knockout",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "java",
+            "name": "Run GA - P01",
+            "request": "launch",
+            "mainClass": "GeneticAlgorithmRunner",
+            "preLaunchTask": "Compile Knapsack Knockout",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "java",
+            "name": "Run GA - Demo",
+            "request": "launch",
+            "mainClass": "GeneticAlgorithmRunner",
+            "args": [
+                "--demo"
+            ],
+            "preLaunchTask": "Compile Knapsack Knockout",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

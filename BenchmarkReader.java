@@ -25,9 +25,11 @@ public class BenchmarkReader {
             if (line.isEmpty()) {
                 continue;
             }
+
             if (line.equalsIgnoreCase("EOF")) {
                 break;
             }
+            
             if (line.equalsIgnoreCase("ITEM_SECTION")) {
                 inItemSection = true;
                 continue;
@@ -48,7 +50,9 @@ public class BenchmarkReader {
                 }
                 items.add(new int[]{id, weight, value});
                 totalPossibleValue += value;
-            } else {
+            } 
+            
+            else {
                 int colon = line.indexOf(':');
                 if (colon < 0) {
                     continue;
@@ -76,10 +80,12 @@ public class BenchmarkReader {
             throw new IllegalArgumentException(
                     "The file needs DIMENSION, CAPACITY and ITEM_SECTION.");
         }
+
         if (dimension != items.size()) {
             throw new IllegalArgumentException(
                     "DIMENSION says " + dimension + " items, but the file contains " + items.size() + ".");
         }
+
         if (capacity == Integer.MAX_VALUE || totalPossibleValue > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("The input exceeds this version's integer limits.");
         }
@@ -87,12 +93,14 @@ public class BenchmarkReader {
         String[] itemNames = new String[dimension];
         int[] weights = new int[dimension];
         int[] values = new int[dimension];
+
         for (int i = 0; i < dimension; i++) {
             int[] item = items.get(i);
             itemNames[i] = "Item " + item[0];
             weights[i] = item[1];
             values[i] = item[2];
         }
+
         return new ProblemData(name, itemNames, weights, values, capacity);
     }
 

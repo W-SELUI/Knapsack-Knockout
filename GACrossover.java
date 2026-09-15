@@ -1,3 +1,5 @@
+import java.util.Random;
+
 // Combine two parent chromosomes at one split point.
 public class GACrossover {
     public static GAChromosome[] onePoint(
@@ -29,5 +31,15 @@ public class GACrossover {
                 new GAChromosome(firstChildGenes),
                 new GAChromosome(secondChildGenes)
         };
+    }
+
+    public static GAChromosome[] onePointRandom(
+            GAChromosome firstParent, GAChromosome secondParent, Random random) {
+        int length = firstParent.genesCopy().length;
+        if (length < 2) {
+            return new GAChromosome[]{firstParent.copy(), secondParent.copy()};
+        }
+        int splitPoint = 1 + random.nextInt(length - 1);
+        return onePoint(firstParent, secondParent, splitPoint);
     }
 }

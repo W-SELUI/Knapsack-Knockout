@@ -4,7 +4,7 @@ A CS214 project comparing Dynamic Programming (DP) and a Genetic Algorithm (GA) 
 
 ## Current progress
 
-The DP program loads benchmark files, calculates the best value, shows a bordered table, lists the chosen items, and checks the answer against a matching entry in KNOWN_OPTIMA.txt. GA, repeated experiments, and live comparison graphs are still to be added.
+The DP program loads benchmark files, calculates the best value, shows a bordered table, lists the chosen items, and checks the answer against a matching entry in KNOWN_OPTIMA.txt. The GA now completes one full run using a binary population, fitness-based selection, one-point crossover, mutation, elitism, and a fixed generation limit. Repeated experiments and live comparison graphs are still to be added.
 
 ## Java files
 
@@ -16,6 +16,13 @@ The DP program loads benchmark files, calculates the best value, shows a bordere
 | BenchmarkReader.java | Read .kp files and look up published answers. |
 | TablePrinter.java | Print the input, bordered table, and chosen items. |
 | ProblemData.java | Hold the item names, weights, values, and bag limit. |
+| GAChromosome.java | Store one binary GA choice and calculate its fitness. |
+| GASelector.java | Select parents using fitness-based ticket chances. |
+| GACrossover.java | Combine two parents at a split point. |
+| GAMutation.java | Randomly flip chromosome bits. |
+| GAResult.java | Store the best choice from one GA run. |
+| GeneticAlgorithm.java | Run the complete GA loop. |
+| GeneticAlgorithmRunner.java | Start one complete GA run. |
 
 Both entry points use the same DP calculation and printing code.
 
@@ -47,6 +54,18 @@ Run another small benchmark:
 java -cp out KnapsackDP benchmarks/benchmarks/p02.kp
 ~~~
 
+Run the complete GA on P01:
+
+~~~powershell
+java -cp out GeneticAlgorithmRunner
+~~~
+
+Run the complete GA on the small example:
+
+~~~powershell
+java -cp out GeneticAlgorithmRunner --demo
+~~~
+
 Recompile after changing the Java code. Compiled files go in out/. The benchmark files remain in benchmarks/benchmarks/.
 
 On the installed Java 26 runtime, you can also use source-file launching:
@@ -67,6 +86,16 @@ The existing --demo option is also supported.
 The table includes every weight limit, displayed in groups of ten columns. A row labelled "First 6 items" means those items are available to choose from.
 
 The solver calculates its answer from weights and values. It uses KNOWN_OPTIMA.txt afterwards to check that answer.
+
+## Current GA settings
+
+- Population size: 50 choices.
+- Stopping rule: 200 generations.
+- Mutation rate: 0.05 per bit.
+- Overweight handling: penalty fitness of 0. The chromosome stays in the population, but cannot be selected when any valid choice has positive fitness.
+- Elitism: the best choice found so far is copied into the next generation.
+
+The GA uses a new random generator for each run, so repeated runs can produce different results. The runner reports the known optimum for comparison but does not assume that GA must find it on every run.
 
 ## Development acknowledgement
 

@@ -46,6 +46,32 @@ public class TablePrinter {
         }
     }
 
+    public static void printGAResult(ProblemData problem, GAResult result) {
+        System.out.println("Generations completed: " + result.getGenerations());
+        System.out.println("Best chromosome: " + result.bits());
+        System.out.println("Best fitness: " + result.getFitness());
+        System.out.println("Selected items:");
+
+        int selectedCount = 0;
+        for (int i = 0; i < problem.weights.length; i++) {
+            if (result.isSelected(i)) {
+                System.out.println("- " + problem.itemNames[i] + ": weight " + problem.weights[i]
+                        + ", value " + problem.values[i]);
+                selectedCount++;
+            }
+        }
+        if (selectedCount == 0) {
+            System.out.println("(none)");
+        }
+        System.out.println("Total weight: " + result.getTotalWeight()
+                + " / " + problem.capacity);
+        System.out.println("Total value: " + result.getTotalValue());
+
+        if (result.getTotalWeight() > problem.capacity) {
+            throw new IllegalStateException("The reported GA result is overweight.");
+        }
+    }
+
     // Print every column, in groups of ten, with borders around all cells.
     public static void printTable(int[][] dp, String[] itemNames, int capacity, boolean isDemo) {
         String[] rowLabels = new String[dp.length];

@@ -4,7 +4,7 @@ A CS214 project comparing Dynamic Programming (DP) and a Genetic Algorithm (GA) 
 
 ## Current progress
 
-The DP program loads benchmark files, calculates the exact best value, shows a bordered table, lists the chosen items, and checks the answer against a matching entry in KNOWN_OPTIMA.txt. The GA completes one full run using a binary population, fitness-based selection, one-point crossover, mutation, elitism, and a fixed generation limit. Repeated experiments and live comparison graphs are still to be added.
+The DP program loads benchmark files, calculates the exact best value, shows a bordered table, lists the chosen items, and checks the answer against a matching entry in KNOWN_OPTIMA.txt. The GA completes one full run using a binary population, fitness-based selection, one-point crossover, mutation, elitism, and a fixed generation limit. BenchmarkRunner performs the first Q2 check across P01-P08 in one launch. Repeated experiments and live comparison graphs are still to be added.
 
 ## Java files
 
@@ -17,6 +17,7 @@ The DP program loads benchmark files, calculates the exact best value, shows a b
 | ProblemData.java | Hold the item names, weights, values, and bag limit. |
 | GeneticAlgorithm.java | Complete GA solver and its related chromosome, selection, crossover, mutation, and result classes. |
 | GeneticAlgorithmRunner.java | Start one complete GA run. |
+| BenchmarkRunner.java | Run a compact DP and GA comparison for P01-P08. |
 
 The `--demo` option on either runner uses the small camera, speaker, and console example.
 
@@ -59,6 +60,14 @@ Run the complete GA on the small example:
 ~~~powershell
 java -cp out GeneticAlgorithmRunner --demo
 ~~~
+
+Run the Q2 benchmark check for P01-P08:
+
+~~~powershell
+java -cp out BenchmarkRunner
+~~~
+
+The benchmark runner prints one summary row per problem. Its DP summary uses a compact one-dimensional table so that the large capacity in P08 can be tested without printing a massive DP table. Each GA row is one random run; the repeated 30-run statistics will be added for the later analysis.
 
 Recompile after changing Java code. All compiled `.class` files go in `out/`; the benchmark files remain in `benchmarks/benchmarks/`.
 

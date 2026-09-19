@@ -1,5 +1,51 @@
 // Shared DP calculation for both benchmark files and the demo.
 public class DPSolver {
+    // A compact one-dimensional DP calculation for benchmark summaries.
+    // It keeps the best value and the weight of one best choice for each
+    // capacity, without storing the full table used for the teaching output.
+    public static CompactResult solveCompact(ProblemData problem) {
+        int[] bestValues = new int[problem.capacity + 1];
+        int[] bestWeights = new int[problem.capacity + 1];
+
+        for (int i = 0; i < problem.weights.length; i++) {
+            int itemWeight = problem.weights[i];
+            int itemValue = problem.values[i];
+
+            // Descending capacities make each item available at most once.
+            for (int capacity = problem.capacity; capacity >= itemWeight; capacity--) {
+                int candidateValue = itemValue + bestValues[capacity - itemWeight];
+                int candidateWeight = itemWeight + bestWeights[capacity - itemWeight];
+
+                if (candidateValue > bestValues[capacity]
+                        || (candidateValue == bestValues[capacity]
+                        && candidateWeight < bestWeights[capacity])) {
+                    bestValues[capacity] = candidateValue;
+                    bestWeights[capacity] = candidateWeight;
+                }
+            }
+        }
+
+        return new CompactResult(bestValues[problem.capacity], bestWeights[problem.capacity]);
+    }
+
+    public static final class CompactResult {
+        private final int bestValue;
+        private final int totalWeight;
+
+        private CompactResult(int bestValue, int totalWeight) {
+            this.bestValue = bestValue;
+            this.totalWeight = totalWeight;
+        }
+
+        public int getBestValue() {
+            return bestValue;
+        }
+
+        public int getTotalWeight() {
+            return totalWeight;
+        }
+    }
+
     public static int[][] buildTable(ProblemData problem) {
         int[] weights = problem.weights;
         int[] values = problem.values;

@@ -9,8 +9,7 @@ public class BenchmarkRunner {
     private static final String[] BENCHMARK_NAMES = {
             "p01.kp", "p02.kp", "p03.kp", "p04.kp",
             "p05.kp", "p06.kp", "p07.kp", "p08.kp"
-    };
-
+    };   
     public static void main(String[] args) {
         try {
             run(args);

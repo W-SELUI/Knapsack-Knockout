@@ -4,15 +4,31 @@ public class DPSolver {
     // It keeps the best value and the weight of one best choice for each
     // capacity, without storing the full table used for the teaching output.
     public static CompactResult solveCompact(ProblemData problem) {
+        return solveCompact(problem, null);
+    }
+
+    // The listener is used by the live graph. It receives one point after
+    // each item has been processed, while normal calls can pass null.
+    public static CompactResult solveCompact(
+            ProblemData problem, ProgressListener listener) {
         int[] bestValues = new int[problem.capacity + 1];
         int[] bestWeights = new int[problem.capacity + 1];
+        long nfc = 0;
+
+        if (listener != null) {
+            listener.onProgress("DP", 0, 0);
+        }
 
         for (int i = 0; i < problem.weights.length; i++) {
             int itemWeight = problem.weights[i];
             int itemValue = problem.values[i];
 
             // Descending capacities make each item available at most once.
-            for (int capacity = problem.capacity; capacity >= itemWeight; capacity--) {
+            for (int capacity = problem.capacity; capacity >= 1; capacity--) {
+                nfc++;
+                if (capacity < itemWeight) {
+                    continue;
+                }
                 int candidateValue = itemValue + bestValues[capacity - itemWeight];
                 int candidateWeight = itemWeight + bestWeights[capacity - itemWeight];
 
@@ -23,18 +39,24 @@ public class DPSolver {
                     bestWeights[capacity] = candidateWeight;
                 }
             }
+
+            if (listener != null) {
+                listener.onProgress("DP", nfc, bestValues[problem.capacity]);
+            }
         }
 
-        return new CompactResult(bestValues[problem.capacity], bestWeights[problem.capacity]);
+        return new CompactResult(bestValues[problem.capacity], bestWeights[problem.capacity], nfc);
     }
 
     public static final class CompactResult {
         private final int bestValue;
         private final int totalWeight;
+        private final long nfc;
 
-        private CompactResult(int bestValue, int totalWeight) {
+        private CompactResult(int bestValue, int totalWeight, long nfc) {
             this.bestValue = bestValue;
             this.totalWeight = totalWeight;
+            this.nfc = nfc;
         }
 
         public int getBestValue() {
@@ -43,6 +65,10 @@ public class DPSolver {
 
         public int getTotalWeight() {
             return totalWeight;
+        }
+
+        public long getNfc() {
+            return nfc;
         }
     }
 
@@ -98,4 +124,9 @@ public class DPSolver {
         return selectedItems;
     }
 
+}
+
+// A progress point used by the live comparison graph.
+interface ProgressListener {
+    void onProgress(String algorithm, long nfc, int profit);
 }

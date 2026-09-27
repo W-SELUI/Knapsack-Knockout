@@ -38,6 +38,22 @@
             ],
             "preLaunchTask": "Compile Knapsack Knockout",
             "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "java",
+            "name": "Run Q3 Experiment",
+            "request": "launch",
+            "mainClass": "ExperimentRunner",
+            "preLaunchTask": "Compile Knapsack Knockout",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "java",
+            "name": "Run Q4 Dashboard",
+            "request": "launch",
+            "mainClass": "GraphRunner",
+            "preLaunchTask": "Compile Knapsack Knockout",
+            "cwd": "${workspaceFolder}"
         }
     ]
 }

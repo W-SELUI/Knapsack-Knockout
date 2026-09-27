@@ -12,6 +12,7 @@ public class GeneticAlgorithm {
     private final int generations;
     private final double mutationRate;
     private final Random random;
+    private long fitnessEvaluations;
 
     public GeneticAlgorithm(ProblemData problem) {
         this(problem, DEFAULT_POPULATION_SIZE, DEFAULT_GENERATIONS,
@@ -40,8 +41,19 @@ public class GeneticAlgorithm {
     }
 
     public GAResult solve() {
+        return solve(null);
+    }
+
+    // Run the GA and optionally report the best-so-far profit after each
+    // meaningful step to the live graph.
+    public GAResult solve(ProgressListener listener) {
+        fitnessEvaluations = 0;
         GAChromosome[] population = createInitialPopulation();
         GAChromosome best = bestOf(population).copy();
+
+        if (listener != null) {
+            listener.onProgress("GA", fitnessEvaluations, best.getFitness());
+        }
 
         for (int generation = 0; generation < generations; generation++) {
             GAChromosome[] nextPopulation = new GAChromosome[populationSize];
@@ -63,6 +75,7 @@ public class GeneticAlgorithm {
                     GAChromosome mutatedChild = GAMutation.mutate(
                             child, mutationRate, random);
                     mutatedChild.evaluate(problem);
+                    fitnessEvaluations++;
                     nextPopulation[nextIndex] = mutatedChild;
                     if (mutatedChild.getFitness() > best.getFitness()) {
                         best = mutatedChild.copy();
@@ -72,9 +85,13 @@ public class GeneticAlgorithm {
             }
 
             population = nextPopulation;
+
+            if (listener != null) {
+                listener.onProgress("GA", fitnessEvaluations, best.getFitness());
+            }
         }
 
-        return new GAResult(best, generations);
+        return new GAResult(best, generations, fitnessEvaluations);
     }
 
     private GAChromosome[] createInitialPopulation() {
@@ -82,6 +99,7 @@ public class GeneticAlgorithm {
         for (int i = 0; i < populationSize; i++) {
             population[i] = GAChromosome.random(problem.weights.length, random);
             population[i].evaluate(problem);
+            fitnessEvaluations++;
         }
         return population;
     }
@@ -271,13 +289,15 @@ class GAResult {
     private final int totalValue;
     private final int fitness;
     private final int generations;
+    private final long fitnessEvaluations;
 
-    public GAResult(GAChromosome best, int generations) {
+    public GAResult(GAChromosome best, int generations, long fitnessEvaluations) {
         this.genes = best.genesCopy();
         this.totalWeight = best.getTotalWeight();
         this.totalValue = best.getTotalValue();
         this.fitness = best.getFitness();
         this.generations = generations;
+        this.fitnessEvaluations = fitnessEvaluations;
     }
 
     public boolean[] genesCopy() {
@@ -302,6 +322,10 @@ class GAResult {
 
     public int getGenerations() {
         return generations;
+    }
+
+    public long getFitnessEvaluations() {
+        return fitnessEvaluations;
     }
 
     public String bits() {

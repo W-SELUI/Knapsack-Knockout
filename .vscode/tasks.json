@@ -8,7 +8,7 @@
             "args": [
                 "-NoProfile",
                 "-Command",
-                "javac -d out *.java"
+                "javac -d out src\\knapsack\\*.java"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

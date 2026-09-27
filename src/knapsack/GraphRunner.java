@@ -1,3 +1,5 @@
+package knapsack;
+
 // Entry point kept for the VS Code Run and Debug configuration.
 // The polished Q4 controls and graph live in GraphDashboard.
 public class GraphRunner {
@@ -5,3 +7,4 @@ public class GraphRunner {
         GraphDashboard.main(args);
     }
 }
+

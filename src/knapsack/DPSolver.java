@@ -1,4 +1,6 @@
-// Shared DP calculation for both benchmark files and the demo.
+package knapsack;
+
+// Shared DP calculation for benchmark files and the live graph.
 public class DPSolver {
     // A compact one-dimensional DP calculation for benchmark summaries.
     // It keeps the best value and the weight of one best choice for each
@@ -130,3 +132,4 @@ public class DPSolver {
 interface ProgressListener {
     void onProgress(String algorithm, long nfc, int profit);
 }
+

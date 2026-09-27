@@ -1,3 +1,5 @@
+package knapsack;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -91,7 +93,7 @@ public final class GraphDashboard {
         int selectedIndex = 0;
         if (args.length > 1) {
             throw new IllegalArgumentException(
-                    "Use: java -cp out GraphRunner [path-to-problem.kp]");
+                    "Use: java -cp out knapsack.GraphRunner [path-to-problem.kp]");
         }
         if (args.length == 1) {
             Path requested = Path.of(args[0]);
@@ -189,7 +191,7 @@ public final class GraphDashboard {
 
         controls.add(label("Animation speed"));
         speedSlider.setPreferredSize(new Dimension(135, 30));
-        speedSlider.setToolTipText("Delay between visible progress points; this affects the demo only");
+        speedSlider.setToolTipText("Delay between visible progress points; this affects the graph display only");
         controls.add(speedSlider);
         speedLabel.setPreferredSize(new Dimension(48, 25));
         speedLabel.setForeground(MUTED);
@@ -509,3 +511,4 @@ public final class GraphDashboard {
         }
     }
 }
+

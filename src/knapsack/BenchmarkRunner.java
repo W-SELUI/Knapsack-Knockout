@@ -1,3 +1,5 @@
+package knapsack;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +24,7 @@ public class BenchmarkRunner {
     private static void run(String[] args) throws IOException {
         if (args.length > 1) {
             throw new IllegalArgumentException(
-                    "Use: java -cp out BenchmarkRunner [benchmark-directory]");
+                    "Use: java -cp out knapsack.BenchmarkRunner [benchmark-directory]");
         }
 
         Path benchmarkDirectory = Path.of(
@@ -90,3 +92,4 @@ public class BenchmarkRunner {
         System.out.println("+---------+------------+------------+-----------+-----------+-----------+-----------+------------+------------+-----------+");
     }
 }
+

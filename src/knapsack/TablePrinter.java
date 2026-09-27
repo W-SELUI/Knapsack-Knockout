@@ -1,3 +1,5 @@
+package knapsack;
+
 import java.nio.file.Path;
 
 // All console formatting lives here, including the bordered DP table.
@@ -73,19 +75,13 @@ public class TablePrinter {
     }
 
     // Print every column, in groups of ten, with borders around all cells.
-    public static void printTable(int[][] dp, String[] itemNames, int capacity, boolean isDemo) {
+    public static void printTable(int[][] dp, int capacity) {
         String[] rowLabels = new String[dp.length];
         rowLabels[0] = "No items";
         int labelWidth = "Items available".length();
-        String availableItems = "";
 
         for (int i = 1; i < dp.length; i++) {
-            if (isDemo) {
-                availableItems += (i == 1 ? "" : ", ") + itemNames[i - 1];
-                rowLabels[i] = availableItems;
-            } else {
-                rowLabels[i] = "First " + i + (i == 1 ? " item" : " items");
-            }
+            rowLabels[i] = "First " + i + (i == 1 ? " item" : " items");
             labelWidth = Math.max(labelWidth, rowLabels[i].length());
         }
 
@@ -126,3 +122,4 @@ public class TablePrinter {
     }
 
 }
+

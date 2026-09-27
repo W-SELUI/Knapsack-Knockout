@@ -1,3 +1,5 @@
+package knapsack;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -30,7 +32,7 @@ public class ExperimentRunner {
     private static void run(String[] args) throws IOException {
         if (args.length > 1) {
             throw new IllegalArgumentException(
-                    "Use: java -cp out ExperimentRunner [benchmark-directory]");
+                    "Use: java -cp out knapsack.ExperimentRunner [benchmark-directory]");
         }
 
         Path benchmarkDirectory = Path.of(
@@ -188,3 +190,4 @@ public class ExperimentRunner {
         System.out.println("+----------+------------+----------+------------+-----------+------------+--------------+------------+------------+--------------+");
     }
 }
+

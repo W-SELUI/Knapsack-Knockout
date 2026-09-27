@@ -1,3 +1,5 @@
+package knapsack;
+
 // Keep a problem's input data together for the reader, solver and printer.
 public class ProblemData {
     final String name;
@@ -14,3 +16,4 @@ public class ProblemData {
         this.capacity = capacity;
     }
 }
+

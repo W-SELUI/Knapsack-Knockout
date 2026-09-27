@@ -1,3 +1,5 @@
+package knapsack;
+
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -15,20 +17,12 @@ public class GeneticAlgorithmRunner {
     private static void run(String[] args) throws IOException {
         if (args.length > 1) {
             throw new IllegalArgumentException(
-                    "Use: java -cp out GeneticAlgorithmRunner [path-to-problem.kp | --demo]");
+                    "Use: java -cp out knapsack.GeneticAlgorithmRunner [path-to-problem.kp]");
         }
 
-        Path problemFile = null;
-        ProblemData problem;
-        if (args.length == 1 && args[0].equals("--demo")) {
-            problem = new ProblemData("Camera example",
-                    new String[]{"Camera", "Speaker", "Console"},
-                    new int[]{2, 3, 4}, new int[]{3, 4, 5}, 5);
-        } else {
-            problemFile = Path.of(args.length == 0
-                    ? "benchmarks/benchmarks/p01.kp" : args[0]);
-            problem = BenchmarkReader.readProblem(problemFile);
-        }
+        Path problemFile = Path.of(args.length == 0
+                ? "benchmarks/benchmarks/p01.kp" : args[0]);
+        ProblemData problem = BenchmarkReader.readProblem(problemFile);
 
         GeneticAlgorithm algorithm = new GeneticAlgorithm(problem);
         GAResult result = algorithm.solve();
@@ -40,13 +34,11 @@ public class GeneticAlgorithmRunner {
         System.out.println("Overweight fitness: 0");
         TablePrinter.printGAResult(problem, result);
 
-        if (problemFile != null) {
-            Integer knownOptimum = BenchmarkReader.readKnownOptimum(problemFile);
-            if (knownOptimum != null) {
-                System.out.println("Known optimal value: " + knownOptimum);
-                System.out.println("Reached known optimum: "
-                        + (result.getFitness() == knownOptimum ? "YES" : "NO"));
-            }
+        Integer knownOptimum = BenchmarkReader.readKnownOptimum(problemFile);
+        if (knownOptimum != null) {
+            System.out.println("Known optimal value: " + knownOptimum);
+            System.out.println("Reached known optimum: "
+                    + (result.getFitness() == knownOptimum ? "YES" : "NO"));
         }
     }
 
@@ -59,3 +51,4 @@ public class GeneticAlgorithmRunner {
         System.out.println("Weight limit: " + problem.capacity);
     }
 }
+

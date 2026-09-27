@@ -1,3 +1,5 @@
+package knapsack;
+
 import java.util.Arrays;
 import java.util.Random;
 
@@ -336,3 +338,4 @@ class GAResult {
         return result.toString();
     }
 }
+
